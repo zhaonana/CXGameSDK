@@ -18,7 +18,6 @@
 #import "ResetpasswordViewController.h"
 #import "CustomIOS7AlertView.h"
 #import "Common.h"
-#import "SvUDIDTools.h"
 
 @interface CXSDKViewController () {
 @private

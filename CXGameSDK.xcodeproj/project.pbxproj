@@ -141,7 +141,6 @@
 		3998E8A21A03A3F900A0B090 /* padQqhui@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3998E8A01A03A3F900A0B090 /* padQqhui@2x.png */; };
 		39990F231A00A74B0097B0F7 /* GGNetWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 39990F221A00A74B0097B0F7 /* GGNetWork.m */; };
 		39990F261A00EDFE0097B0F7 /* OtherLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39990F251A00EDFE0097B0F7 /* OtherLoginViewController.m */; };
-		39990F2A1A00FC5D0097B0F7 /* SvUDIDTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 39990F291A00FC5D0097B0F7 /* SvUDIDTools.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		399BE1D01A01E83B00B0E958 /* QZoneConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399BE1C01A01E83B00B0E958 /* QZoneConnection.framework */; };
 		399BE1D11A01E83B00B0E958 /* SinaWeiboConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399BE1C11A01E83B00B0E958 /* SinaWeiboConnection.framework */; };
 		399BE1D21A01E83B00B0E958 /* AGCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399BE1C31A01E83B00B0E958 /* AGCommon.framework */; };
@@ -349,8 +348,6 @@
 		39990F221A00A74B0097B0F7 /* GGNetWork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGNetWork.m; sourceTree = "<group>"; };
 		39990F241A00EDFE0097B0F7 /* OtherLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherLoginViewController.h; sourceTree = "<group>"; };
 		39990F251A00EDFE0097B0F7 /* OtherLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherLoginViewController.m; sourceTree = "<group>"; };
-		39990F281A00FC5D0097B0F7 /* SvUDIDTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SvUDIDTools.h; sourceTree = "<group>"; };
-		39990F291A00FC5D0097B0F7 /* SvUDIDTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SvUDIDTools.m; sourceTree = "<group>"; };
 		399BE1C01A01E83B00B0E958 /* QZoneConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QZoneConnection.framework; sourceTree = "<group>"; };
 		399BE1C11A01E83B00B0E958 /* SinaWeiboConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SinaWeiboConnection.framework; sourceTree = "<group>"; };
 		399BE1C31A01E83B00B0E958 /* AGCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AGCommon.framework; sourceTree = "<group>"; };
@@ -485,7 +482,6 @@
 				395F410719EE18800002AB2D /* AppDelegate.m */,
 				399BE1BE1A01E83B00B0E958 /* ShareSDK */,
 				3955F5D21A0126880035DAFA /* a.appcpa.net */,
-				39990F271A00FC5D0097B0F7 /* UDID_Tools */,
 				395F41A019EE1B1D0002AB2D /* ViewControllers */,
 				395F41CC19EE1CF90002AB2D /* Images */,
 				395F417A19EE19570002AB2D /* Alert */,
@@ -848,15 +844,6 @@
 			path = Pay;
 			sourceTree = "<group>";
 		};
-		39990F271A00FC5D0097B0F7 /* UDID_Tools */ = {
-			isa = PBXGroup;
-			children = (
-				39990F281A00FC5D0097B0F7 /* SvUDIDTools.h */,
-				39990F291A00FC5D0097B0F7 /* SvUDIDTools.m */,
-			);
-			path = UDID_Tools;
-			sourceTree = "<group>";
-		};
 		399BE1BE1A01E83B00B0E958 /* ShareSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -1116,7 +1103,6 @@
 				395F416819EE19010002AB2D /* AFXMLRequestOperation.m in Sources */,
 				3929BE1F19FA801000F0033C /* IsBindPhoneViewController.m in Sources */,
 				394A2E0E1A025320006A877F /* SwitchCell.m in Sources */,
-				39990F2A1A00FC5D0097B0F7 /* SvUDIDTools.m in Sources */,
 				39A1072519EFF188003062A9 /* UserLoginViewController.m in Sources */,
 				395F410419EE18800002AB2D /* main.m in Sources */,
 				395F41C519EE1B1D0002AB2D /* LoginViewController.m in Sources */,
@@ -1260,7 +1246,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = KeychainAccessGroups.plist;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Haiyan Du (2MHBU9SBXT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Haiyan Du (2MHBU9SBXT)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1307,7 +1293,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = KeychainAccessGroups.plist;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Haiyan Du (2MHBU9SBXT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Haiyan Du (2MHBU9SBXT)";
 				FRAMEWORK_SEARCH_PATHS = (

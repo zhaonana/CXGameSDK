@@ -13,6 +13,7 @@
 #import "PreferencesUtils.h"
 #import "Common.h"
 #import "JsonUtil.h"
+#import "PreferencesUtils.h"
 
 @interface BindPhoneViewController () {
     UITextField *_phoneField;
@@ -45,7 +46,6 @@
     } else {
         [self setUpPadSubViews];
     }
-    
     NSString *json = [PreferencesUtils getStringForKey:kUserNames];
     if ([StringUtil isNotEmpty:json]) {
         NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
@@ -273,6 +273,10 @@
     
     if([StringUtil isEmpty:_phoneNumber]){
         [SVProgressHUD showErrorWithStatus:@"手机号码不能为空"];
+        return;
+    }
+    if (![PreferencesUtils isValidateMobile:_phoneNumber]) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号"];
         return;
     }
     

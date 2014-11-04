@@ -31,6 +31,9 @@
 //检验Email格式
 + (BOOL)isValidateEmail:(NSString *)Email;
 
+//检验phone格式
++ (BOOL)isValidateMobile:(NSString *)mobile;
+
 //弹出框
 + (void)showAlert:(NSString *)msg;
 

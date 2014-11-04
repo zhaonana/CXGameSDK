@@ -75,6 +75,14 @@
     return [emailTest evaluateWithObject:Email];
 }
 
++ (BOOL)isValidateMobile:(NSString *)mobile
+{
+    NSString *regex = @"^((13[0-9])|(147)|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isMatch = [pred evaluateWithObject:mobile];
+    return isMatch;
+}
+
 #pragma mark -
 #pragma mark - UI
 

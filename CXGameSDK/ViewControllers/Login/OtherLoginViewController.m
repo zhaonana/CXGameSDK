@@ -7,7 +7,6 @@
 //
 
 #import "OtherLoginViewController.h"
-#import "SvUDIDTools.h"
 
 @interface OtherLoginViewController () <UIWebViewDelegate>
 
@@ -51,7 +50,7 @@
     NSString *deviceName = [DeviceInfo getDeviceVersion];
     NSMutableDictionary *infoDic = [USER_DEFAULT objectForKey:INITINFO];
     
-    NSString *urlStr = [NSString stringWithFormat:@"http://sdkapi.test.ak.cc/user/changloginsuccess?client=%@&app_id=%@&server_id=%@&device_name=%@&os_version=%@&imei=%@",self.client,[infoDic objectForKey:@"appID"],[infoDic objectForKey:@"serviceID"],deviceName,phoneVer,[SvUDIDTools UDID]];
+    NSString *urlStr = [NSString stringWithFormat:@"http://sdkapi.test.ak.cc/user/changloginsuccess?client=%@&app_id=%@&server_id=%@&device_name=%@&os_version=%@&imei=%@",self.client,[infoDic objectForKey:@"appID"],[infoDic objectForKey:@"serviceID"],deviceName,phoneVer,[DeviceInfo getIDFA]];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
     
     [self.view addSubview:webView];
