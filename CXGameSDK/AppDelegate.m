@@ -24,7 +24,6 @@
     
     //IAP
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[InAppRageIAPHelper sharedHelper]];
-
     
     //第三方登录
     [ShareSDK registerApp:@"3d45f757ed94"];

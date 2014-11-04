@@ -142,7 +142,6 @@
 		39990F231A00A74B0097B0F7 /* GGNetWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 39990F221A00A74B0097B0F7 /* GGNetWork.m */; };
 		39990F261A00EDFE0097B0F7 /* OtherLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39990F251A00EDFE0097B0F7 /* OtherLoginViewController.m */; };
 		39990F2A1A00FC5D0097B0F7 /* SvUDIDTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 39990F291A00FC5D0097B0F7 /* SvUDIDTools.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		39990F2C1A00FC840097B0F7 /* KeychainAccessGroups.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39990F2B1A00FC840097B0F7 /* KeychainAccessGroups.plist */; };
 		399BE1D01A01E83B00B0E958 /* QZoneConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399BE1C01A01E83B00B0E958 /* QZoneConnection.framework */; };
 		399BE1D11A01E83B00B0E958 /* SinaWeiboConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399BE1C11A01E83B00B0E958 /* SinaWeiboConnection.framework */; };
 		399BE1D21A01E83B00B0E958 /* AGCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399BE1C31A01E83B00B0E958 /* AGCommon.framework */; };
@@ -352,7 +351,6 @@
 		39990F251A00EDFE0097B0F7 /* OtherLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherLoginViewController.m; sourceTree = "<group>"; };
 		39990F281A00FC5D0097B0F7 /* SvUDIDTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SvUDIDTools.h; sourceTree = "<group>"; };
 		39990F291A00FC5D0097B0F7 /* SvUDIDTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SvUDIDTools.m; sourceTree = "<group>"; };
-		39990F2B1A00FC840097B0F7 /* KeychainAccessGroups.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeychainAccessGroups.plist; sourceTree = SOURCE_ROOT; };
 		399BE1C01A01E83B00B0E958 /* QZoneConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QZoneConnection.framework; sourceTree = "<group>"; };
 		399BE1C11A01E83B00B0E958 /* SinaWeiboConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SinaWeiboConnection.framework; sourceTree = "<group>"; };
 		399BE1C31A01E83B00B0E958 /* AGCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AGCommon.framework; sourceTree = "<group>"; };
@@ -507,7 +505,6 @@
 		395F40FE19EE18800002AB2D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				39990F2B1A00FC840097B0F7 /* KeychainAccessGroups.plist */,
 				395F40FF19EE18800002AB2D /* CXGameSDK-Info.plist */,
 				395F410019EE18800002AB2D /* InfoPlist.strings */,
 				395F410319EE18800002AB2D /* main.m */,
@@ -1066,7 +1063,6 @@
 				3997A54719F129300073D6F2 /* padDuanxintongzhi.png in Resources */,
 				395F41F119EE1CF90002AB2D /* CXdengluyouxidianji@2x.png in Resources */,
 				395F420019EE1CF90002AB2D /* CXyoukedenglu.png in Resources */,
-				39990F2C1A00FC840097B0F7 /* KeychainAccessGroups.plist in Resources */,
 				395F41F319EE1CF90002AB2D /* CXdianhua@2x.png in Resources */,
 				395F420319EE1CF90002AB2D /* CXyoukedengludianji@2x.png in Resources */,
 				3997A53219F1084E0073D6F2 /* padMima@2x.png in Resources */,
