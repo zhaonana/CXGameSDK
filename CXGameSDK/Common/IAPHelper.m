@@ -7,6 +7,16 @@
 //
 
 #import "IAPHelper.h"
+#import "GGNetWork.h"
+#import "SVProgressHUD.h"
+#import "Common.h"
+
+@interface IAPHelper () {
+    NSString *_product_id;
+    NSString *_order_id;
+}
+
+@end
 
 @implementation IAPHelper 
 
@@ -50,7 +60,37 @@
 
 - (void)recordTransaction:(SKPaymentTransaction *)transaction
 {
-    // Optional: Record the transaction on the server side...
+    NSString *ticket = [transaction.transactionReceipt base64Encoding];
+    NSDictionary *dic = @{@"order_id": _order_id,
+                          @"product_id": _product_id,
+                          @"user_id": [Common getUser].user_id,
+                          @"ticket": ticket
+                          };
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:dic];
+    
+    [GGNetWork getHttp:@"pay/appstorynotify" parameters:params sucess:^(id responseObj) {
+        if (responseObj) {
+            NSInteger code = [[responseObj objectForKey:@"code"] intValue];
+            if (code == 1) {
+                NSLog(@"验证收据成功~");
+                switch (transaction.transactionState) {
+                    case SKPaymentTransactionStatePurchased:
+                        [self provideContent:transaction.payment.productIdentifier];
+                        break;
+                    case SKPaymentTransactionStateRestored:
+                        [self provideContent:transaction.originalTransaction.payment.productIdentifier];
+                        break;
+                    default:
+                        break;
+                }
+                [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+            } else {
+                NSLog(@"验证收据失败~");
+            }
+        }
+    } failed:^(NSString *errorMsg) {
+        [SVProgressHUD showErrorWithStatus:@"链接失败"];
+    }];
 }
 
 - (void)provideContent:(NSString *)productIdentifier
@@ -68,18 +108,14 @@
 {
     NSLog(@"completeTransaction...");
     
-    [self recordTransaction: transaction];
-    [self provideContent: transaction.payment.productIdentifier];
-    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+    [self recordTransaction:transaction];
 }
 
 - (void)restoreTransaction:(SKPaymentTransaction *)transaction
 {
     NSLog(@"restoreTransaction...");
     
-    [self recordTransaction: transaction];
-    [self provideContent: transaction.originalTransaction.payment.productIdentifier];
-    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+    [self recordTransaction:transaction];
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction
@@ -90,7 +126,7 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kProductPurchaseFailedNotification object:transaction];
     
-    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
@@ -117,6 +153,33 @@
     
     SKPayment *payment = [SKPayment paymentWithProductIdentifier:productIdentifier];
     [[SKPaymentQueue defaultQueue] addPayment:payment];
+}
+
+- (void)requestOrdersWithParams:(CXPayParams *)CXParams
+{
+    NSDictionary *dic = @{@"good_id": CXParams.good_id,
+                          @"cp_bill_no": CXParams.cp_bill_no,
+                          @"notify_url": CXParams.notify_url,
+                          @"user_id": [Common getUser].user_id,
+                          @"extra": CXParams.extra
+                          };
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:dic];
+    
+    [GGNetWork getHttp:@"pay/appstory" parameters:params sucess:^(id responseObj) {
+        if (responseObj) {
+            NSInteger code = [[responseObj objectForKey:@"code"] intValue];
+            if (code == 1) {
+                NSDictionary *dic = [responseObj objectForKey:@"data"];
+                _order_id = [dic objectForKey:@"order_id"];
+                _product_id = [dic objectForKey:@"product_id"];
+                [self buyProductIdentifier:_product_id];
+            } else {
+                //                [self showToast:code];
+            }
+        }
+    } failed:^(NSString *errorMsg) {
+        [SVProgressHUD showErrorWithStatus:@"链接失败"];
+    }];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "StoreKit/StoreKit.h"
+#import "CXPayParams.h"
 
 #define kProductsLoadedNotification         @"ProductsLoaded"
 #define kProductPurchasedNotification       @"ProductPurchased"
@@ -23,5 +24,7 @@
 - (void)requestProducts;
 - (id)initWithProductIdentifiers:(NSSet *)productIdentifiers;
 - (void)buyProductIdentifier:(NSString *)productIdentifier;
+
+- (void)requestOrdersWithParams:(CXPayParams *)CXParams;
 
 @end

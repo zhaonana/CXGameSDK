@@ -12,19 +12,9 @@
 
 @interface Common : NSObject
 
-+ (UserModel*)getUser;
-+ (void)setUser:(UserModel*)mUser;
-
-+ (void)setAppID:(NSString*)appID;
-+ (void)setCPKey:(NSString*)cpKey;
-+ (void)setServerID:(NSString*)serverID;
-+ (void)setSDKOrientation:(SDKOrientation)orientation;
++ (UserModel *)getUser;
++ (void)setUser:(UserModel *)mUser;
 + (void)setBindPhone:(BOOL)bindPhone;
-
-+ (NSString*)getAppID;
-+ (NSString*)getCPKey;
-+ (NSString*)getServerID;
-+ (SDKOrientation)getSDKOrientation;
 + (BOOL)isBindPhone;
 
 @end

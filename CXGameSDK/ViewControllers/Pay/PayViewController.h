@@ -6,8 +6,8 @@
 //  Copyright (c) 2014年 nn. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface PayViewController : UIViewController
+@interface PayViewController : BaseViewController
 
 @end

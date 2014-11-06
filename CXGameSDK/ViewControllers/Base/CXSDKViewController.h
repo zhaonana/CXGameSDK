@@ -33,13 +33,17 @@ typedef enum {
 
 @interface CXSDKViewController : UIViewController
 
-@property (nonatomic, assign) SDKOrientation   screenOrientation;//横竖屏
-@property (nonatomic, strong) NSString         *cpKey;//游戏合作商秘钥
-@property (nonatomic, strong) NSString         *serverID;//服务器ID
-@property (nonatomic, strong) NSString         *appID;//应用ID
-@property (nonatomic, assign) id<LoginCallBack      > loginDelegate;//登录回调
+//横竖屏
+@property (nonatomic, assign) SDKOrientation   screenOrientation;
+//游戏合作商秘钥
+@property (nonatomic, strong) NSString         *cpKey;
+//服务器ID
+@property (nonatomic, strong) NSString         *serverID;
+//应用ID
+@property (nonatomic, strong) NSString         *appID;
+//登录回调
+@property (nonatomic, assign) id<LoginCallBack      > loginDelegate;
 @property (nonatomic, strong) UIViewController *controller;
-
 
 /*
    初始化SDK

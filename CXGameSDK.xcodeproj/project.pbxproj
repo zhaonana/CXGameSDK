@@ -11,6 +11,7 @@
 		3929BE1F19FA801000F0033C /* IsBindPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3929BE1E19FA801000F0033C /* IsBindPhoneViewController.m */; };
 		393F6F5219FB5526005BEC4D /* bx_icon_safety_line.png in Resources */ = {isa = PBXBuildFile; fileRef = 393F6F5119FB5526005BEC4D /* bx_icon_safety_line.png */; };
 		394A2E0E1A025320006A877F /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 394A2E0C1A025320006A877F /* SwitchCell.m */; };
+		394A63A61A0A01D10013EF7E /* CXPayParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 394A63A51A0A01D10013EF7E /* CXPayParams.m */; };
 		3955F5D51A0126880035DAFA /* libTalkingDataAppCpa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3955F5D31A0126880035DAFA /* libTalkingDataAppCpa.a */; };
 		3955F5D71A0127470035DAFA /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3955F5D61A0127470035DAFA /* AdSupport.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		3955F5D91A0127560035DAFA /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3955F5D81A0127560035DAFA /* libz.dylib */; };
@@ -178,6 +179,8 @@
 		393F6F5119FB5526005BEC4D /* bx_icon_safety_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bx_icon_safety_line.png; sourceTree = "<group>"; };
 		394A2E0B1A025320006A877F /* SwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchCell.h; sourceTree = "<group>"; };
 		394A2E0C1A025320006A877F /* SwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchCell.m; sourceTree = "<group>"; };
+		394A63A41A0A01D10013EF7E /* CXPayParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXPayParams.h; sourceTree = "<group>"; };
+		394A63A51A0A01D10013EF7E /* CXPayParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXPayParams.m; sourceTree = "<group>"; };
 		3955F5D31A0126880035DAFA /* libTalkingDataAppCpa.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTalkingDataAppCpa.a; sourceTree = "<group>"; };
 		3955F5D41A0126880035DAFA /* TalkingDataAppCpa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalkingDataAppCpa.h; sourceTree = "<group>"; };
 		3955F5D61A0127470035DAFA /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -583,6 +586,8 @@
 				395F414319EE19010002AB2D /* Common.m */,
 				395F414419EE19010002AB2D /* UserModel.h */,
 				395F414519EE19010002AB2D /* UserModel.m */,
+				394A63A41A0A01D10013EF7E /* CXPayParams.h */,
+				394A63A51A0A01D10013EF7E /* CXPayParams.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1099,6 +1104,7 @@
 				395F417D19EE19570002AB2D /* CustomIOS7AlertView.m in Sources */,
 				395F416C19EE19010002AB2D /* Common.m in Sources */,
 				395F417519EE19010002AB2D /* NSString+JSONCategories.m in Sources */,
+				394A63A61A0A01D10013EF7E /* CXPayParams.m in Sources */,
 				395F410819EE18800002AB2D /* AppDelegate.m in Sources */,
 				395F416819EE19010002AB2D /* AFXMLRequestOperation.m in Sources */,
 				3929BE1F19FA801000F0033C /* IsBindPhoneViewController.m in Sources */,

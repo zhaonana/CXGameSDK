@@ -8,6 +8,7 @@
 
 #import "PayViewController.h"
 #import "InAppRageIAPHelper.h"
+#import "Common.h"
 
 @interface PayViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -29,7 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+        
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, KSCREENWIDTH, KSCREENHEIGHT) style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;
@@ -147,6 +148,7 @@
     NSLog(@"Buying %@...", product.productIdentifier);
     [[InAppRageIAPHelper sharedHelper] buyProductIdentifier:product.productIdentifier];
 }
+
 
 
 @end

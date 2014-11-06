@@ -8,6 +8,10 @@
 
 #import "InAppRageIAPHelper.h"
 
+@interface InAppRageIAPHelper ()
+
+@end
+
 @implementation InAppRageIAPHelper
 
 static InAppRageIAPHelper * _sharedHelper;
@@ -23,15 +27,15 @@ static InAppRageIAPHelper * _sharedHelper;
 
 - (id)init
 {
-    NSSet *productIdentifiers = [NSSet setWithObjects:
-                                 @"com.changxiang60.diamond",
-                                 @"com.changxiang300.diamond",
-                                 @"com.changxiang1980.diamond",
-                                 @"com.changxiang3280.diamond",
-                                 @"com.changxiang6480.diamond",
-                                 nil];
+//    NSSet *productIdentifiers = [NSSet setWithObjects:
+//                                 @"com.changxiang60.diamond",
+//                                 @"com.changxiang300.diamond",
+//                                 @"com.changxiang1980.diamond",
+//                                 @"com.changxiang3280.diamond",
+//                                 @"com.changxiang6480.diamond",
+//                                 nil];
     
-    if ((self = [super initWithProductIdentifiers:productIdentifiers])) {                
+    if ((self = [super initWithProductIdentifiers:nil])) {
         
     }
     return self;
