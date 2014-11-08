@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CXSDKViewController.h"
-#import "BaseViewController.h"
 
-@interface MainViewController : BaseViewController <LoginCallBack>
+@interface MainViewController : UIViewController
 
 - (void)startSDK;
 

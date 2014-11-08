@@ -191,7 +191,7 @@ SSSinaWeiboRequestMethod;
 ///#begin zh-cn
 /**
  *	@brief	上传图片并发布一条新微博
- *
+ *F
  *	@param 	status 	微博内容
  *	@param 	pic 	图片数据
  *  @param  locationCoordinate  地理位置信息，可以为nil

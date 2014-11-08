@@ -553,8 +553,8 @@
                 user.password = password;
                 user.origin = origin;
                 
-                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginCallBack:userID:ticket:)]) {
-                    [self.rootView.loginDelegate loginCallBack:code userID:user.user_id ticket:user.ticket];
+                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginSuccessedCallBack:userID:ticket:)]) {
+                    [self.rootView.loginDelegate loginSuccessedCallBack:code userID:user.user_id ticket:user.ticket];
                 }
 
                 //保存账户密码
@@ -565,10 +565,14 @@
                 //TD
                 [TalkingDataAppCpa onLogin:user.user_id];
             } else {
+                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginFailedCallBack:)]) {
+                    [self.rootView.loginDelegate loginFailedCallBack:code];
+                }
                 [self showToast:code];
             }
         }
     } failed:^(NSString *errorMsg) {
+        [SVProgressHUD showErrorWithStatus:@"链接失败"];
     }];
 }
 
@@ -608,30 +612,33 @@
 {
     NSLog(@"新浪登陆");
     
-//    OtherLoginViewController *olVct = [[OtherLoginViewController alloc] init];
-//    olVct.client = @"sina";
-//    [self.rootView.controller presentViewController:olVct animated:YES completion:^{
+    OtherLoginViewController *olVct = [[OtherLoginViewController alloc] init];
+    olVct.client = @"sina";
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:olVct];
+    [UIApplication sharedApplication].keyWindow.rootViewController = nc;
+//    [self.rootView.controller presentViewController:nc animated:YES completion:^(void) {
 //        [self.rootView closeSDK];
 //    }];
-    if (![WeiboSDK isWeiboAppInstalled]) {
-        [self.rootView closeSDK];
-    } 
-    if ([ShareSDK hasAuthorizedWithType:ShareTypeSinaWeibo]) {
-        [self.rootView closeSDK];
-    } else {
-        [ShareSDK authWithType:ShareTypeSinaWeibo options:[ShareSDK authOptionsWithAutoAuth:YES allowCallback:YES scopes:nil powerByHidden:YES followAccounts:nil authViewStyle:SSAuthViewStyleFullScreenPopup viewDelegate:nil authManagerViewDelegate:nil] result:^(SSAuthState state, id<ICMErrorInfo> error) {
-            if (state == SSAuthStateSuccess) {
-                NSLog(@"授权成功~");
-                [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo authOptions:nil result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
-                    if (result) {
-                        [self otherLoginRequestWithClient:@"SinaWeibo" nickname:[userInfo nickname] uid:[userInfo uid]];
-                    }
-                }];
-            } else if (state == SSAuthStateFail) {
-                NSLog(@"授权失败~");
-            }
-        }];
-    }
+
+//    if (![WeiboSDK isWeiboAppInstalled]) {
+//        [self.rootView closeSDK];
+//    } 
+//    if ([ShareSDK hasAuthorizedWithType:ShareTypeSinaWeibo]) {
+//        [self.rootView closeSDK];
+//    } else {
+//        [ShareSDK authWithType:ShareTypeSinaWeibo options:[ShareSDK authOptionsWithAutoAuth:YES allowCallback:YES scopes:nil powerByHidden:YES followAccounts:nil authViewStyle:SSAuthViewStyleFullScreenPopup viewDelegate:nil authManagerViewDelegate:nil] result:^(SSAuthState state, id<ICMErrorInfo> error) {
+//            if (state == SSAuthStateSuccess) {
+//                NSLog(@"授权成功~");
+//                [ShareSDK getUserInfoWithType:ShareTypeSinaWeibo authOptions:nil result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
+//                    if (result) {
+//                        [self otherLoginRequestWithClient:@"SinaWeibo" nickname:[userInfo nickname] uid:[userInfo uid]];
+//                    }
+//                }];
+//            } else if (state == SSAuthStateFail) {
+//                NSLog(@"授权失败~");
+//            }
+//        }];
+//    }
 }
 
 /**
@@ -668,8 +675,8 @@
                 NSDictionary *dic = [responseObj objectForKey:@"data"];
                 UserModel *user = [JsonUtil parseUserModel:dic];
                 
-                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginCallBack:userID:ticket:)]) {
-                    [self.rootView.loginDelegate loginCallBack:code userID:user.user_id ticket:user.ticket];
+                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginSuccessedCallBack:userID:ticket:)]) {
+                    [self.rootView.loginDelegate loginSuccessedCallBack:code userID:user.user_id ticket:user.ticket];
                 }
                 
                 //保存账户密码
@@ -679,10 +686,14 @@
                 //关闭SDK
                 [self.rootView closeSDK];
             } else {
+                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginFailedCallBack:)]) {
+                    [self.rootView.loginDelegate loginFailedCallBack:code];
+                }
                 [self showToast:code];
             }
         }
     } failed:^(NSString *errorMsg) {
+        [SVProgressHUD showErrorWithStatus:@"链接失败"];
     }];
 }
 

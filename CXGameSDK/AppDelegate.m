@@ -11,7 +11,6 @@
 #import <ShareSDK/ShareSDK.h>
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
-#import "InAppRageIAPHelper.h"
 
 @implementation AppDelegate
 
@@ -21,9 +20,6 @@
     
     MainViewController *mainCon = [[MainViewController alloc] init];
     self.window.rootViewController = mainCon;
-    
-    //IAP
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[InAppRageIAPHelper sharedHelper]];
     
     //第三方登录
     [ShareSDK registerApp:@"3d45f757ed94"];
@@ -51,6 +47,12 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     return [ShareSDK handleOpenURL:url sourceApplication:sourceApplication annotation:annotation wxDelegate:self];
+}
+
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+//    return UIInterfaceOrientationMaskPortrait;    //竖屏
+    return UIInterfaceOrientationMaskLandscapeLeft; //横屏
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

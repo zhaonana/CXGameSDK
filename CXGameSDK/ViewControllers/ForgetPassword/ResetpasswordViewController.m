@@ -326,6 +326,7 @@
             if (code == 1) {
                 //发送回调
                 UserModel *user = [Common getUser];
+                user.username = _username;
                 user.password =_newPassword;
                 [self saveUsers:user];
                 [Common setUser:user];
