@@ -615,8 +615,10 @@
     OtherLoginViewController *olVct = [[OtherLoginViewController alloc] init];
     olVct.client = @"sina";
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:olVct];
-    [UIApplication sharedApplication].keyWindow.rootViewController = nc;
-//    [self.rootView.controller presentViewController:nc animated:YES completion:^(void) {
+    [self.rootView.controller presentViewController:nc animated:YES completion:^{
+        [self.rootView closeSDK];
+    }];
+    //    [self.rootView.controller presentViewController:nc animated:YES completion:^(void) {
 //        [self.rootView closeSDK];
 //    }];
 

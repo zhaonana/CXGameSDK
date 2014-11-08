@@ -7,8 +7,9 @@
 //
 
 #import "OtherLoginViewController.h"
+#import "MainViewController.h"
 
-@interface OtherLoginViewController () <UIWebViewDelegate, LoginCallBack>
+@interface OtherLoginViewController () <UIWebViewDelegate>
 
 @end
 
@@ -71,14 +72,9 @@
 #pragma mark - UIButtonClick
 - (void)barButtonClick
 {
-    BaseViewController *mainVC = [[BaseViewController alloc] init];
-    [UIApplication sharedApplication].keyWindow.rootViewController = mainVC;
+    [self dismissViewControllerAnimated:YES completion:nil];
     
     CXSDKViewController *cxVC = [[CXSDKViewController alloc] init];
-    cxVC.loginDelegate = self;
-    [cxVC setAppID:@"10086"];
-    [cxVC setCpKey:@"123456"];
-    [cxVC setServerID:@"2"];
     [cxVC openSDK:self];
     [cxVC showTabByTag:TYPE_LOGIN];
 }
