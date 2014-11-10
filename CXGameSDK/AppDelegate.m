@@ -52,7 +52,7 @@
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
 //    return UIInterfaceOrientationMaskPortrait;    //竖屏
-    return UIInterfaceOrientationMaskLandscapeLeft; //横屏
+    return UIInterfaceOrientationMaskLandscapeRight; //横屏
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

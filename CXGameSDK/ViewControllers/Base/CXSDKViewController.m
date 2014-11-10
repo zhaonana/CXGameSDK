@@ -103,6 +103,16 @@
     [_alertView close];
 }
 
+- (void)hiddenSDK
+{
+    [_alertView setHidden:YES];
+}
+
+- (void)showSDK
+{
+    [_alertView setHidden:NO];
+}
+
 #pragma mark - loadView
 - (void)loadHeaderView
 {

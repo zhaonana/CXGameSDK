@@ -75,6 +75,6 @@
 
 - (void)textFiledReturnEditing:(id)sender;
 
-- (NSMutableArray*)parseJsonData:(NSData *)data;
+- (NSMutableArray *)parseJsonData:(NSData *)data;
 
 @end

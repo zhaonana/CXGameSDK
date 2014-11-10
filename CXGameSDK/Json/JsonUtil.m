@@ -26,7 +26,7 @@
     return user;
 }
 
-+ (NSMutableArray*) parseUserModelArray:(NSArray *)array
++ (NSMutableArray*)parseUserModelArray:(NSArray *)array
 {
     NSMutableArray *userArray = [[NSMutableArray alloc] init];
     
@@ -47,7 +47,7 @@
     return userArray;
 }
 
-+ (NSMutableArray*) parseUserModelArrayStr:(NSArray *)array
++ (NSMutableArray*)parseUserModelArrayStr:(NSArray *)array
 {
     NSMutableArray *userArray = [[NSMutableArray alloc] init];
     
@@ -68,7 +68,8 @@
     return userArray;
 }
 
-+ (NSString *) toJson:(id) data{
++ (NSString *)toJson:(id)data
+{
     NSString *json;
     if ([NSJSONSerialization isValidJSONObject:data])
     {
@@ -79,7 +80,8 @@
     return json;
 }
 
-+ (NSString *) toUserArrayJson:(NSArray*) array{
++ (NSString *)toUserArrayJson:(NSArray*) array
+{
     NSMutableArray *jsonArray = [[NSMutableArray alloc] init];
     for (UserModel *user in array) {
         [jsonArray addObject:[user getDic]];
@@ -93,6 +95,22 @@
         json =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     return json;
+}
+
++ (id)toArrayOrNSDictionary:(NSData *)jsonData
+{
+    NSError *error = nil;
+    id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                    options:NSJSONReadingAllowFragments
+                                                      error:&error];
+    
+    if (jsonObject != nil && error == nil) {
+        return jsonObject;
+    } else {
+        // 解析错误
+        return nil;
+    }
+    
 }
 
 @end

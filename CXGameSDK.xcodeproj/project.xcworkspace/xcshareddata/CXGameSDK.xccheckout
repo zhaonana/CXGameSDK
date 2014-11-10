@@ -10,29 +10,29 @@
 	<string>CXGameSDK</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>0E57E20B-D1C6-44C2-A77C-D902E4B1E103</key>
+		<key>AB6B8B15266F5DD63DF59AF7074BC6DEA3C6583B</key>
 		<string>https://github.com/zhaonana/CXGameSDK.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>CXGameSDK.xcodeproj/project.xcworkspace</string>
+	<string>CXGameSDK.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>0E57E20B-D1C6-44C2-A77C-D902E4B1E103</key>
+		<key>AB6B8B15266F5DD63DF59AF7074BC6DEA3C6583B</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/zhaonana/CXGameSDK.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>0E57E20B-D1C6-44C2-A77C-D902E4B1E103</string>
+	<string>AB6B8B15266F5DD63DF59AF7074BC6DEA3C6583B</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>0E57E20B-D1C6-44C2-A77C-D902E4B1E103</string>
+			<string>AB6B8B15266F5DD63DF59AF7074BC6DEA3C6583B</string>
 			<key>IDESourceControlWCCName</key>
 			<string>CXGameSDK</string>
 		</dict>

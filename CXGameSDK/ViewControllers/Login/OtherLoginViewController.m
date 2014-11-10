@@ -7,7 +7,6 @@
 //
 
 #import "OtherLoginViewController.h"
-#import "MainViewController.h"
 
 @interface OtherLoginViewController () <UIWebViewDelegate>
 
@@ -73,55 +72,39 @@
 - (void)barButtonClick
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-    
-    CXSDKViewController *cxVC = [[CXSDKViewController alloc] init];
-    [cxVC openSDK:self];
-    [cxVC showTabByTag:TYPE_LOGIN];
+    if (self.cancelOtherLoginBlock) {
+        self.cancelOtherLoginBlock();
+    }
 }
 
 #pragma mark - UIWebViewDelegate methods
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSURL *url = [request URL];
-    if ([url.scheme isEqualToString:@"CXAPI"]) {
+    if ([url.scheme isEqualToString:@"cxapi"]) {
+        NSString *jsonStr = [url.absoluteString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSRange range = [jsonStr rangeOfString:@"{"];
+        if (range.location != NSNotFound) {
+            jsonStr = [jsonStr substringFromIndex:range.location];
+        }
+        NSData *jsonData = [jsonStr dataUsingEncoding:NSASCIIStringEncoding];
+        NSDictionary *dic = [JsonUtil toArrayOrNSDictionary:jsonData];
+        UserModel *user = [JsonUtil parseUserModel:dic];
         
+        if (self.loginSuccessedBlock) {
+            self.loginSuccessedBlock(user.user_id, user.ticket);
+        }
+
+        //保存账户密码
+        [self saveUsers:user];
+        //设置当前用户信息
+        [Common setUser:user];
+        //TD
+        [TalkingDataAppCpa onLogin:user.user_id];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     return YES;
 }
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    NSDictionary *dic = @{@"client": self.client};
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:dic];
-    [GGNetWork getHttp:@"user/threelogin" parameters:params sucess:^(id responseObj) {
-        if (responseObj) {
-            NSInteger code = [[responseObj objectForKey:@"code"] intValue];
-            if(code == 1){
-                NSDictionary *dic = [responseObj objectForKey:@"data"];
-                UserModel *user = [JsonUtil parseUserModel:dic];
-                
-                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginSuccessedCallBack:userID:ticket:)]) {
-                    [self.rootView.loginDelegate loginSuccessedCallBack:code userID:user.user_id ticket:user.ticket];
-                }
-                
-                //保存账户密码
-                [self saveUsers:user];
-                //设置当前用户信息
-                [Common setUser:user];
-                //关闭SDK
-                [self.rootView closeSDK];
-            } else {
-                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginFailedCallBack:)]) {
-                    [self.rootView.loginDelegate loginFailedCallBack:code];
-                }
-                [self showToast:code];
-            }
-        }
-    } failed:^(NSString *errorMsg) {
-        [SVProgressHUD showErrorWithStatus:@"链接失败"];
-    }];
-}
-
 
 @end

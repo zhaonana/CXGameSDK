@@ -11,14 +11,16 @@
 
 @interface JsonUtil : NSObject
 
-+ (UserModel*) parseUserModel:(id) data;
++ (UserModel *)parseUserModel:(id) data;
 
-+ (NSMutableArray*) parseUserModelArray:(id)data;
++ (NSMutableArray *)parseUserModelArray:(id)data;
 
-+ (NSString *) toUserArrayJson:(NSArray*) array;
++ (NSString *)toUserArrayJson:(NSArray*)array;
 
-+ (NSMutableArray*) parseUserModelArrayStr:(NSArray *)array;
++ (NSMutableArray *)parseUserModelArrayStr:(NSArray *)array;
 
-+ (NSString *) toJson:(id) data;
++ (NSString *)toJson:(id)data;
+
++ (id)toArrayOrNSDictionary:(NSData *)jsonData;
 
 @end

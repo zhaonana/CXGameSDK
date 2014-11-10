@@ -614,13 +614,18 @@
     
     OtherLoginViewController *olVct = [[OtherLoginViewController alloc] init];
     olVct.client = @"sina";
+    olVct.cancelOtherLoginBlock = ^() {
+        [self.rootView showSDK];
+    };
+    olVct.loginSuccessedBlock = ^(NSString *user_id, NSString *ticket) {
+        if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginSuccessedCallBack:userID:ticket:)]) {
+            [self.rootView.loginDelegate loginSuccessedCallBack:1 userID:user_id ticket:ticket];
+        }
+    };
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:olVct];
     [self.rootView.controller presentViewController:nc animated:YES completion:^{
-        [self.rootView closeSDK];
+        [self.rootView hiddenSDK];
     }];
-    //    [self.rootView.controller presentViewController:nc animated:YES completion:^(void) {
-//        [self.rootView closeSDK];
-//    }];
 
 //    if (![WeiboSDK isWeiboAppInstalled]) {
 //        [self.rootView closeSDK];

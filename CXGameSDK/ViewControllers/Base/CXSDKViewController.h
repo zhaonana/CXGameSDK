@@ -14,14 +14,15 @@
  *  @return 每个界面
  */
 #define TYPE_LOGIN           0
-#define TYPE_USER_LOGIN      1  
-#define TYPE_REGISTER        2
-#define TYPE_ISBIND_PHONE    3  
-#define TYPE_CHANGE_PASSWROD 4
-#define TYPE_TOURISTS_LOGIN  5
-#define TYPE_BIND_PHONE      6
-#define TYPE_FORGOT_PASSWORD 7
-#define TYPE_RESET_PASSWORD  8
+#define TYPE_USER_LOGIN      1
+#define TYPE_OTHER_LOGIN     2
+#define TYPE_REGISTER        3
+#define TYPE_ISBIND_PHONE    4
+#define TYPE_CHANGE_PASSWROD 5
+#define TYPE_TOURISTS_LOGIN  6
+#define TYPE_BIND_PHONE      7
+#define TYPE_FORGOT_PASSWORD 8
+#define TYPE_RESET_PASSWORD  9
 
 @class CXSDKViewController;
 
@@ -87,6 +88,14 @@
  *  关闭SDK
  */
 - (void)closeSDK;
+/**
+ *  隐藏SDK
+ */
+- (void)hiddenSDK;
+/**
+ *  显示SDK
+ */
+- (void)showSDK;
 
 /**
  *  按照Tag显示界面()
