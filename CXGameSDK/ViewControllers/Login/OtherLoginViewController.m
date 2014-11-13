@@ -71,10 +71,11 @@
 #pragma mark - UIButtonClick
 - (void)barButtonClick
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
-    if (self.cancelOtherLoginBlock) {
-        self.cancelOtherLoginBlock();
-    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (self.cancelOtherLoginBlock) {
+            self.cancelOtherLoginBlock();
+        }
+    }];
 }
 
 #pragma mark - UIWebViewDelegate methods

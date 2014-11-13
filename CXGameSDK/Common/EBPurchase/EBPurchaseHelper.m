@@ -86,8 +86,7 @@ static EBPurchaseHelper * _sharedHelper;
     if (demoPurchase.validProduct != nil) {
         // Then, call the purchase method.
         
-        if (![demoPurchase purchaseProduct:demoPurchase.validProduct])
-        {
+        if (![demoPurchase purchaseProduct:demoPurchase.validProduct]) {
             // Returned NO, so notify user that In-App Purchase is Disabled in their Settings.
             UIAlertView *settingsAlert = [[UIAlertView alloc] initWithTitle:@"Allow Purchases" message:@"You must first enable In-App Purchase in your iOS Settings before making this purchase." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [settingsAlert show];
@@ -141,17 +140,32 @@ static EBPurchaseHelper * _sharedHelper;
         // processed (such as past subscription renewals).
         
         isPurchased = YES;
-        
-        //-------------------------------------
-        
+                
         // 1 - Unlock the purchased content and update the app's stored settings.
+        NSString *ticket = [transactionReceipt base64Encoding];
+        NSDictionary *dic = @{@"order_id": _order_id,
+                              @"product_id": _product_id,
+                              @"user_id": [Common getUser].user_id,
+                              @"ticket": ticket
+                              };
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:dic];
         
-        //-------------------------------------
-        
-        // 2 - Notify the user that the transaction was successful.
-        if (_purchaseDelegate && [_purchaseDelegate respondsToSelector:@selector(purchaseSuccessedCallBack:)]) {
-            [_purchaseDelegate purchaseSuccessedCallBack:productId];
-        }
+        [GGNetWork getHttp:@"pay/appstorenotify" parameters:params sucess:^(id responseObj) {
+            if (responseObj) {
+                NSInteger code = [[responseObj objectForKey:@"code"] intValue];
+                if (code == 1) {
+                    NSLog(@"验证收据成功~");
+                    // 2 - Notify the user that the transaction was successful.
+                    if (_purchaseDelegate && [_purchaseDelegate respondsToSelector:@selector(purchaseSuccessedCallBack:)]) {
+                        [_purchaseDelegate purchaseSuccessedCallBack:productId];
+                    }
+                } else {
+                    NSLog(@"验证收据失败~");
+                }
+            }
+        } failed:^(NSString *errorMsg) {
+            [SVProgressHUD showErrorWithStatus:@"链接失败"];
+        }];
     }
     
 }

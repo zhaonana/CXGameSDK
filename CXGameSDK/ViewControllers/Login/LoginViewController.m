@@ -192,7 +192,7 @@
         [tencentBtn setImage:[UIImage imageNamed:@"CXqqhui"] forState:UIControlStateHighlighted];
     }
     [tencentBtn addTarget:self action:@selector(tencentBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:tencentBtn];
+    //[self.view addSubview:tencentBtn];
     
     //set forgotPassWordBtn
     _forgotBtn = [[UIButton alloc] initWithFrame:CGRectMake(144, 246, 64, 13)];
@@ -346,7 +346,7 @@
         [tencentBtn setImage:[UIImage imageNamed:@"padQqhui"] forState:UIControlStateHighlighted];
     }
     [tencentBtn addTarget:self action:@selector(tencentBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:tencentBtn];
+    //[self.view addSubview:tencentBtn];
     
     //set forgotPassWordBtn
     _forgotBtn = [[UIButton alloc] initWithFrame:CGRectMake(178, 310, 74, 16)];

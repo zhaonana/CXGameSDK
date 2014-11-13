@@ -30,6 +30,7 @@
 
 
 #import "EBPurchase.h"
+#import "SVProgressHUD.h"
 
 @implementation EBPurchase
 
@@ -37,8 +38,10 @@
 @synthesize validProduct;
 
 
--(bool) requestProduct:(NSString*)productId 
+- (bool)requestProduct:(NSString*)productId
 {
+    [SVProgressHUD showWithStatus:@"加载中" maskType:4];
+
     if (productId != nil) {
 
         NSLog(@"EBPurchase requestProduct: %@", productId);
@@ -72,7 +75,7 @@
     	
 }
 
--(bool) purchaseProduct:(SKProduct*)requestedProduct 
+- (bool)purchaseProduct:(SKProduct*)requestedProduct
 {
     if (requestedProduct != nil) {
         
@@ -109,7 +112,7 @@
     }
 }
 
--(bool) restorePurchase 
+- (bool)restorePurchase 
 {
     NSLog(@"EBPurchase restorePurchase");
     
