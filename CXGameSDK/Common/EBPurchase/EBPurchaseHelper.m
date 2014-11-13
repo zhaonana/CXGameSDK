@@ -12,12 +12,14 @@
 #import "GGNetWork.h"
 #import "SVProgressHUD.h"
 #import "BaseViewController.h"
+#import "TalkingDataAppCpa.h"
 
 @interface EBPurchaseHelper () <EBPurchaseDelegate> {
     EBPurchase *demoPurchase;
     BOOL        isPurchased;
     NSString    *_product_id;
     NSString    *_order_id;
+    int         _amount;
 }
 
 @end
@@ -116,6 +118,7 @@ static EBPurchaseHelper * _sharedHelper;
     
     if (productPrice != nil) {
         // Product is available, so update button title with price.
+        _amount = [productPrice intValue] * 100;
         [self purchaseProduct];
         NSLog(@"Buy Game Levels Pack ");
     } else {
@@ -159,6 +162,8 @@ static EBPurchaseHelper * _sharedHelper;
                     if (_purchaseDelegate && [_purchaseDelegate respondsToSelector:@selector(purchaseSuccessedCallBack:)]) {
                         [_purchaseDelegate purchaseSuccessedCallBack:productId];
                     }
+                    
+                    [TalkingDataAppCpa onPay:[Common getUser].user_id withOrderId:_order_id withAmount:_amount withCurrencyType:@"CNY" withPayType:@"In App Purchases"];
                 } else {
                     NSLog(@"验证收据失败~");
                 }
