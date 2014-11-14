@@ -83,9 +83,7 @@
     NSString *result = [NSString stringWithFormat:@"Your purchase was successful and the Game Levels Pack %@ is now unlocked for your enjoyment!", productId];
     [SVProgressHUD showSuccessWithStatus:result];
     NSLog(@"%@",result);
-    
-    UIButton *btn = [[UIButton alloc] init];
-    [btn setBackgroundImage:[UIImage imageNamed:@"changxiangyouxi"] forState:UIControlStateHighlighted];
+
 }
 
 - (void)purchaseFailedCallBack:(NSInteger)resultCode message:(NSString *)errorMessage

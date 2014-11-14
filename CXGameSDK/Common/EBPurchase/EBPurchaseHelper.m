@@ -56,7 +56,7 @@ static EBPurchaseHelper * _sharedHelper;
                           };
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:dic];
     
-    [GGNetWork getHttp:@"pay/appstory" parameters:params sucess:^(id responseObj) {
+    [GGNetWork getHttp:@"pay/appstore" parameters:params sucess:^(id responseObj) {
         if (responseObj) {
             NSInteger code = [[responseObj objectForKey:@"code"] intValue];
             if (code == 1) {
