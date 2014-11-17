@@ -547,8 +547,6 @@
                 user.password = password;
                 user.origin = origin;
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:LOGIN_SUCCESSED_NOTIFICATION object:nil userInfo:dic];
-
                 //保存账户密码
                 [self saveUsers:user];
                 //设置当前用户信息

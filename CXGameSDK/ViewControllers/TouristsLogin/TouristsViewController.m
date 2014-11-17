@@ -324,7 +324,7 @@
         controller.recipients = recipients;
         controller.messageComposeDelegate = self;
         [self.rootView.controller presentViewController:controller animated:YES completion:^(void) {
-            [self.rootView closeSDK];
+            [self.rootView hiddenSDK];
         }];
     }
 }

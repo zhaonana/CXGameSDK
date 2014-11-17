@@ -13,6 +13,8 @@
 #define PURCHASE_SUCCESSED_NOTIFICATION @"purchaseSucessedNotification"
 //支付失败通知
 #define PURCHASE_FAILED_NOTIFICATION @"purchaseFailedNotification"
+//支付取消通知
+#define PURCHASE_CANCELLED_NOTIFICATION @"purchasecancelledNotification"
 
 @interface EBPurchaseHelper : NSObject
 

@@ -202,9 +202,11 @@
 				
 				if (transaction.error.code != SKErrorPaymentCancelled) {
 					// A transaction error occurred, so notify user.
-                    
                     [delegate failedPurchase:self error:transaction.error.code message:transaction.error.localizedDescription];
-				}
+                } else if (transaction.error.code == SKErrorPaymentCancelled) {
+                    // A transaction cancelled, so notify user.
+                    [delegate cancelledPurchase:self error:transaction.error.code message:transaction.error.localizedDescription];
+                }
 				// Finished transactions should be removed from the payment queue.
 				[[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 				break;

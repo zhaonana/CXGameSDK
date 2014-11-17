@@ -103,6 +103,11 @@
 - (void)closeSDK
 {
     [_alertView close];
+
+    NSDictionary *dic = @{@"user_id": [Common getUser].user_id,
+                          @"ticket": [Common getUser].ticket
+                          };
+    [[NSNotificationCenter defaultCenter] postNotificationName:LOGIN_SUCCESSED_NOTIFICATION object:nil userInfo:dic];
 }
 
 - (void)hiddenSDK

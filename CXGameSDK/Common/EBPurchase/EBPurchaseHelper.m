@@ -14,7 +14,7 @@
 #import "BaseViewController.h"
 #import "TalkingDataAppCpa.h"
 
-@interface EBPurchaseHelper () <EBPurchaseDelegate> {
+@interface EBPurchaseHelper () <EBPurchaseDelegate, UIAlertViewDelegate> {
     EBPurchase *demoPurchase;
     BOOL        isPurchased;
     NSString    *_product_id;
@@ -90,7 +90,7 @@ static EBPurchaseHelper * _sharedHelper;
         
         if (![demoPurchase purchaseProduct:demoPurchase.validProduct]) {
             // Returned NO, so notify user that In-App Purchase is Disabled in their Settings.
-            UIAlertView *settingsAlert = [[UIAlertView alloc] initWithTitle:@"Allow Purchases" message:@"You must first enable In-App Purchase in your iOS Settings before making this purchase." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *settingsAlert = [[UIAlertView alloc] initWithTitle:@"Allow Purchases" message:@"You must first enable In-App Purchase in your iOS Settings before making this purchase." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [settingsAlert show];
         }
     }
@@ -104,7 +104,7 @@ static EBPurchaseHelper * _sharedHelper;
     // Call restore method.
     if (![demoPurchase restorePurchase]) {
         // Returned NO, so notify user that In-App Purchase is Disabled in their Settings.
-        UIAlertView *settingsAlert = [[UIAlertView alloc] initWithTitle:@"Allow Purchases" message:@"You must first enable In-App Purchase in your iOS Settings before restoring a previous purchase." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *settingsAlert = [[UIAlertView alloc] initWithTitle:@"Allow Purchases" message:@"You must first enable In-App Purchase in your iOS Settings before restoring a previous purchase." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [settingsAlert show];
     }
 }
@@ -123,7 +123,7 @@ static EBPurchaseHelper * _sharedHelper;
         NSLog(@"Buy Game Levels Pack ");
     } else {
         // Product is NOT available in the App Store, so notify user.
-        UIAlertView *unavailAlert = [[UIAlertView alloc] initWithTitle:@"Not Available" message:@"This In-App Purchase item is not available in the App Store at this time. Please try again later." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *unavailAlert = [[UIAlertView alloc] initWithTitle:@"Not Available" message:@"This In-App Purchase item is not available in the App Store at this time. Please try again later." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [unavailAlert show];
     }
 }
@@ -178,12 +178,22 @@ static EBPurchaseHelper * _sharedHelper;
 {
     NSLog(@"ViewController failedPurchase");
     
-    // Purchase or Restore request failed or was cancelled, so notify the user.
+    // Purchase or Restore request failed, so notify the user.
 
     NSDictionary *dic = @{@"errorCode": [NSString stringWithFormat:@"%ld",(long)errorCode],
                           @"errorMessage": errorMessage
                           };
     [[NSNotificationCenter defaultCenter] postNotificationName:PURCHASE_FAILED_NOTIFICATION object:nil userInfo:dic];
+}
+
+- (void)cancelledPurchase:(EBPurchase *)ebp error:(NSInteger)errorCode message:(NSString *)errorMessage
+{
+    NSLog(@"ViewController cancelledPurchase");
+    
+    // Purchase or Restore request was cancelled, so notify the user.
+    
+    NSDictionary *dic = @{@"errorMessage": errorMessage};
+    [[NSNotificationCenter defaultCenter] postNotificationName:PURCHASE_CANCELLED_NOTIFICATION object:nil userInfo:dic];
 }
 
 - (void)incompleteRestore:(EBPurchase*)ebp
@@ -195,7 +205,7 @@ static EBPurchaseHelper * _sharedHelper;
     // If the user previously purchased the item, they will NOT be re-charged again, but it should
     // restore their purchase.
     
-    UIAlertView *restoreAlert = [[UIAlertView alloc] initWithTitle:@"Restore Issue" message:@"A prior purchase transaction could not be found. To restore the purchased product, tap the Buy button. Paid customers will NOT be charged again, but the purchase will be restored." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *restoreAlert = [[UIAlertView alloc] initWithTitle:@"Restore Issue" message:@"A prior purchase transaction could not be found. To restore the purchased product, tap the Buy button. Paid customers will NOT be charged again, but the purchase will be restored." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [restoreAlert show];
 }
 
@@ -205,8 +215,14 @@ static EBPurchaseHelper * _sharedHelper;
     
     // Restore request failed or was cancelled, so notify the user.
     
-    UIAlertView *failedAlert = [[UIAlertView alloc] initWithTitle:@"Restore Stopped" message:@"Either you cancelled the request or your prior purchase could not be restored. Please try again later, or contact the app's customer support for assistance." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *failedAlert = [[UIAlertView alloc] initWithTitle:@"Restore Stopped" message:@"Either you cancelled the request or your prior purchase could not be restored. Please try again later, or contact the app's customer support for assistance." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [failedAlert show];
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [SVProgressHUD dismiss];
 }
 
 @end

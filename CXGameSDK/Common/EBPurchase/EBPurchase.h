@@ -56,6 +56,8 @@
 
 -(void) failedPurchase:(EBPurchase*)ebp error:(NSInteger)errorCode message:(NSString*)errorMessage;
 
+-(void) cancelledPurchase:(EBPurchase*)ebp error:(NSInteger)errorCode message:(NSString*)errorMessage;
+
 -(void) incompleteRestore:(EBPurchase*)ebp;
 
 -(void) failedRestore:(EBPurchase*)ebp error:(NSInteger)errorCode message:(NSString*)errorMessage;
