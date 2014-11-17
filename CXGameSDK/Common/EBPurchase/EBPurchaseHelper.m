@@ -159,9 +159,8 @@ static EBPurchaseHelper * _sharedHelper;
                 if (code == 1) {
                     NSLog(@"验证收据成功~");
                     // 2 - Notify the user that the transaction was successful.
-                    if (_purchaseDelegate && [_purchaseDelegate respondsToSelector:@selector(purchaseSuccessedCallBack:)]) {
-                        [_purchaseDelegate purchaseSuccessedCallBack:productId];
-                    }
+                    NSDictionary *dic = @{@"productId": productId};
+                    [[NSNotificationCenter defaultCenter] postNotificationName:PURCHASE_SUCCESSED_NOTIFICATION object:nil userInfo:dic];
                     
                     [TalkingDataAppCpa onPay:[Common getUser].user_id withOrderId:_order_id withAmount:_amount withCurrencyType:@"CNY" withPayType:@"In App Purchases"];
                 } else {
@@ -180,10 +179,11 @@ static EBPurchaseHelper * _sharedHelper;
     NSLog(@"ViewController failedPurchase");
     
     // Purchase or Restore request failed or was cancelled, so notify the user.
-    
-    if (_purchaseDelegate && [_purchaseDelegate respondsToSelector:@selector(purchaseFailedCallBack:message:)]) {
-        [_purchaseDelegate purchaseFailedCallBack:errorCode message:errorMessage];
-    }
+
+    NSDictionary *dic = @{@"errorCode": [NSString stringWithFormat:@"%ld",(long)errorCode],
+                          @"errorMessage": errorMessage
+                          };
+    [[NSNotificationCenter defaultCenter] postNotificationName:PURCHASE_FAILED_NOTIFICATION object:nil userInfo:dic];
 }
 
 - (void)incompleteRestore:(EBPurchase*)ebp

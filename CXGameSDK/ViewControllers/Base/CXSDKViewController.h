@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "CXComPlatformBase.h"
 /**
  *  界面type
  *
@@ -23,26 +23,6 @@
 #define TYPE_FORGOT_PASSWORD 7
 #define TYPE_RESET_PASSWORD  8
 
-@class CXSDKViewController;
-
-@protocol LoginCallBack <NSObject>
-
-/**
- *  登录成功回调
- *
- *  @param resultCode 登录成功码
- *  @param userID     用户ID
- *  @param ticket     用户票据
- */
-- (void)loginSuccessedCallBack:(NSInteger)resultCode userID:(NSString *)userID ticket:(NSString *)ticket;
-/**
- *  登录失败回调
- *
- *  @param resultCode 登录失败错误码
- */
-- (void)loginFailedCallBack:(NSInteger)resultCode;
-
-@end
 
 /**
  *  畅想游戏SDK接口类
@@ -61,10 +41,6 @@
  *  应用ID
  */
 @property (nonatomic, strong) NSString         *appID;
-/**
- *  登录回调
- */
-@property (nonatomic, assign) id<LoginCallBack      > loginDelegate;
 /**
  *  子界面
  */

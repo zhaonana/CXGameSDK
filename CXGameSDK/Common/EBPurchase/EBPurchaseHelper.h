@@ -9,33 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "CXPayParams.h"
 
-/**
- *  支付协议
- */
-@protocol PurchaseCallBack <NSObject>
-
-/**
- *  支付成功
- *
- *  @param productId 商品ID
- */
-- (void)purchaseSuccessedCallBack:(NSString *)productId;
-/**
- *  支付失败
- *
- *  @param resultCode   支付失败错误码
- *  @param errorMessage 支付失败错误信息
- */
-- (void)purchaseFailedCallBack:(NSInteger)resultCode message:(NSString *)errorMessage;
-
-@end
+//支付成功通知
+#define PURCHASE_SUCCESSED_NOTIFICATION @"purchaseSucessedNotification"
+//支付失败通知
+#define PURCHASE_FAILED_NOTIFICATION @"purchaseFailedNotification"
 
 @interface EBPurchaseHelper : NSObject
-
-/**
- *  支付代理
- */
-@property (nonatomic, assign) id<PurchaseCallBack> purchaseDelegate;
 
 /**
  *  创建支付

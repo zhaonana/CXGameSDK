@@ -10,11 +10,8 @@
 #import "LoginViewController.h"
 #import "PreferencesUtils.h"
 #import "CXSDKViewController.h"
-#import <ShareSDK/ShareSDK.h>
-#import <TencentOpenAPI/TencentOAuth.h>
 #import "OtherLoginViewController.h"
-#import "WeiboSDK.h"
-#import <TencentOpenAPI/QQApi.h>
+#import "TalkingDataAppCpa.h"
 
 @interface LoginViewController () <UITableViewDataSource, UITableViewDelegate> {
     UITextField    *_accountField;
@@ -60,9 +57,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [ShareSDK cancelAuthWithType:ShareTypeSinaWeibo];
-    [ShareSDK cancelAuthWithType:ShareTypeQQSpace];
 }
 
 #pragma mark - setUpSubViews
@@ -183,15 +177,15 @@
     [self.view addSubview:sinaBtn];
     
     //set tencentBtn
-    UIButton *tencentBtn = [[UIButton alloc] initWithFrame:CGRectMake(143, 205, 29, 28)];
-    if ([QQApi isQQInstalled]) {
-        [tencentBtn setImage:[UIImage imageNamed:@"CXqq"] forState:UIControlStateNormal];
-        [tencentBtn setImage:[UIImage imageNamed:@"CXqq"] forState:UIControlStateHighlighted];
-    } else {
-        [tencentBtn setImage:[UIImage imageNamed:@"CXqqhui"] forState:UIControlStateNormal];
-        [tencentBtn setImage:[UIImage imageNamed:@"CXqqhui"] forState:UIControlStateHighlighted];
-    }
-    [tencentBtn addTarget:self action:@selector(tencentBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton *tencentBtn = [[UIButton alloc] initWithFrame:CGRectMake(143, 205, 29, 28)];
+//    if ([QQApi isQQInstalled]) {
+//        [tencentBtn setImage:[UIImage imageNamed:@"CXqq"] forState:UIControlStateNormal];
+//        [tencentBtn setImage:[UIImage imageNamed:@"CXqq"] forState:UIControlStateHighlighted];
+//    } else {
+//        [tencentBtn setImage:[UIImage imageNamed:@"CXqqhui"] forState:UIControlStateNormal];
+//        [tencentBtn setImage:[UIImage imageNamed:@"CXqqhui"] forState:UIControlStateHighlighted];
+//    }
+//    [tencentBtn addTarget:self action:@selector(tencentBtnClick) forControlEvents:UIControlEventTouchUpInside];
     //[self.view addSubview:tencentBtn];
     
     //set forgotPassWordBtn
@@ -337,15 +331,15 @@
     [self.view addSubview:sinaBtn];
     
     //set tencentBtn
-    UIButton *tencentBtn = [[UIButton alloc] initWithFrame:CGRectMake(174, 264, 31, 31)];
-    if ([QQApi isQQInstalled]) {
-        [tencentBtn setImage:[UIImage imageNamed:@"padQq"] forState:UIControlStateNormal];
-        [tencentBtn setImage:[UIImage imageNamed:@"padQq"] forState:UIControlStateHighlighted];
-    } else {
-        [tencentBtn setImage:[UIImage imageNamed:@"padQqhui"] forState:UIControlStateNormal];
-        [tencentBtn setImage:[UIImage imageNamed:@"padQqhui"] forState:UIControlStateHighlighted];
-    }
-    [tencentBtn addTarget:self action:@selector(tencentBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton *tencentBtn = [[UIButton alloc] initWithFrame:CGRectMake(174, 264, 31, 31)];
+//    if ([QQApi isQQInstalled]) {
+//        [tencentBtn setImage:[UIImage imageNamed:@"padQq"] forState:UIControlStateNormal];
+//        [tencentBtn setImage:[UIImage imageNamed:@"padQq"] forState:UIControlStateHighlighted];
+//    } else {
+//        [tencentBtn setImage:[UIImage imageNamed:@"padQqhui"] forState:UIControlStateNormal];
+//        [tencentBtn setImage:[UIImage imageNamed:@"padQqhui"] forState:UIControlStateHighlighted];
+//    }
+//    [tencentBtn addTarget:self action:@selector(tencentBtnClick) forControlEvents:UIControlEventTouchUpInside];
     //[self.view addSubview:tencentBtn];
     
     //set forgotPassWordBtn
@@ -553,9 +547,7 @@
                 user.password = password;
                 user.origin = origin;
                 
-                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginSuccessedCallBack:userID:ticket:)]) {
-                    [self.rootView.loginDelegate loginSuccessedCallBack:code userID:user.user_id ticket:user.ticket];
-                }
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOGIN_SUCCESSED_NOTIFICATION object:nil userInfo:dic];
 
                 //保存账户密码
                 [self saveUsers:user];
@@ -565,9 +557,8 @@
                 //TD
                 [TalkingDataAppCpa onLogin:user.user_id];
             } else {
-                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginFailedCallBack:)]) {
-                    [self.rootView.loginDelegate loginFailedCallBack:code];
-                }
+                NSDictionary *dic = @{@"code": [NSString stringWithFormat:@"%ld",(long)code]};
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOGIN_FAILED_NOTIFICATION object:nil userInfo:dic];
                 [self showToast:code];
             }
         }
@@ -618,10 +609,12 @@
         [self.rootView showSDK];
     };
     olVct.loginSuccessedBlock = ^(NSString *user_id, NSString *ticket) {
-        if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginSuccessedCallBack:userID:ticket:)]) {
-            [self.rootView.loginDelegate loginSuccessedCallBack:1 userID:user_id ticket:ticket];
-        }
+        NSDictionary *dic = @{@"user_id": user_id,
+                              @"ticket": ticket
+                              };
+        [[NSNotificationCenter defaultCenter] postNotificationName:LOGIN_SUCCESSED_NOTIFICATION object:nil userInfo:dic];
     };
+    
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:olVct];
     [self.rootView.controller presentViewController:nc animated:YES completion:^{
         [self.rootView hiddenSDK];
@@ -659,50 +652,50 @@
 //    [self.rootView.controller presentViewController:olVct animated:YES completion:^{
 //        [self.rootView closeSDK];
 //    }];
-    [ShareSDK getUserInfoWithType:ShareTypeQQSpace authOptions:nil result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
-        if (result) {
-            [self otherLoginRequestWithClient:@"QQ" nickname:[userInfo nickname] uid:[userInfo uid]];
-        } 
-    }];
+//    [ShareSDK getUserInfoWithType:ShareTypeQQSpace authOptions:nil result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
+//        if (result) {
+//            [self otherLoginRequestWithClient:@"QQ" nickname:[userInfo nickname] uid:[userInfo uid]];
+//        } 
+//    }];
 }
 
-- (void)otherLoginRequestWithClient:(NSString *)client nickname:(NSString *)nickname uid:(NSString *)uid
-{
-    NSDictionary *dic = @{@"channel": @"ios",
-                          @"client": client,
-                          @"nick_name": nickname,
-                          @"u_id": uid
-                          };
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:dic];
-    [GGNetWork getHttp:@"user/rollbacks" parameters:params sucess:^(id responseObj) {
-        if (responseObj) {
-            NSInteger code = [[responseObj objectForKey:@"code"] intValue];
-            if(code == 1){
-                NSDictionary *dic = [responseObj objectForKey:@"data"];
-                UserModel *user = [JsonUtil parseUserModel:dic];
-                
-                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginSuccessedCallBack:userID:ticket:)]) {
-                    [self.rootView.loginDelegate loginSuccessedCallBack:code userID:user.user_id ticket:user.ticket];
-                }
-                
-                //保存账户密码
-                [self saveUsers:user];
-                //设置当前用户信息
-                [Common setUser:user];
-                //关闭SDK
-                [self.rootView closeSDK];
-            } else {
-                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginFailedCallBack:)]) {
-                    [self.rootView.loginDelegate loginFailedCallBack:code];
-                }
-                [self showToast:code];
-            }
-        }
-    } failed:^(NSString *errorMsg) {
-        [SVProgressHUD showErrorWithStatus:@"链接失败"];
-    }];
-}
+//- (void)otherLoginRequestWithClient:(NSString *)client nickname:(NSString *)nickname uid:(NSString *)uid
+//{
+//    NSDictionary *dic = @{@"channel": @"ios",
+//                          @"client": client,
+//                          @"nick_name": nickname,
+//                          @"u_id": uid
+//                          };
+//    
+//    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:dic];
+//    [GGNetWork getHttp:@"user/rollbacks" parameters:params sucess:^(id responseObj) {
+//        if (responseObj) {
+//            NSInteger code = [[responseObj objectForKey:@"code"] intValue];
+//            if(code == 1){
+//                NSDictionary *dic = [responseObj objectForKey:@"data"];
+//                UserModel *user = [JsonUtil parseUserModel:dic];
+//                
+//                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginSuccessedCallBack:userID:ticket:)]) {
+//                    [self.rootView.loginDelegate loginSuccessedCallBack:code userID:user.user_id ticket:user.ticket];
+//                }
+//                
+//                //保存账户密码
+//                [self saveUsers:user];
+//                //设置当前用户信息
+//                [Common setUser:user];
+//                //关闭SDK
+//                [self.rootView closeSDK];
+//            } else {
+//                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginFailedCallBack:)]) {
+//                    [self.rootView.loginDelegate loginFailedCallBack:code];
+//                }
+//                [self showToast:code];
+//            }
+//        }
+//    } failed:^(NSString *errorMsg) {
+//        [SVProgressHUD showErrorWithStatus:@"链接失败"];
+//    }];
+//}
 
 #pragma mark - resetView
 - (void)resetView

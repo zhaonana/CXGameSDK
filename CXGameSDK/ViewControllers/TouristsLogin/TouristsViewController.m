@@ -8,6 +8,7 @@
 
 #import "TouristsViewController.h"
 #import <MessageUI/MessageUI.h>
+#import "TalkingDataAppCpa.h"
 
 @interface TouristsViewController () <MFMessageComposeViewControllerDelegate, UIAlertViewDelegate> {
     UITextField *_accountField;

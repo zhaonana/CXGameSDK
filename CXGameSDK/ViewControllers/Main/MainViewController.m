@@ -7,12 +7,13 @@
 //
 
 #import "MainViewController.h"
-#import "CXSDKViewController.h"
+#import "CXComPlatformBase.h"
+#import "CXInitConfigure.h"
 #import "SVProgressHUD.h"
 #import "CXPayParams.h"
 #import "EBPurchaseHelper.h"
 
-@interface MainViewController () <LoginCallBack,PurchaseCallBack>
+@interface MainViewController () 
 
 @end
 
@@ -42,25 +43,32 @@
 #pragma mark - 初始化SDK
 - (void)startSDK
 {
-    CXSDKViewController *cxVC = [[CXSDKViewController alloc] init];
-    cxVC.loginDelegate = self;
-    [cxVC setAppID:@"10009"];
-    [cxVC setCpKey:@"123456"];
-    [cxVC setServerID:@"2"];
-    [cxVC initSDK:self];
+    CXInitConfigure *cfg = [[CXInitConfigure alloc] init];
+    cfg.appId = @"10009";
+    cfg.cpKey = @"123456";
+    cfg.serverId = @"2";
+    cfg.controller = self;
+    [[CXComPlatformBase defaultPlatform] CXInit:cfg];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(lgoinSuccessedCallBack:) name:LOGIN_SUCCESSED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFailedCallBack:) name:LOGIN_FAILED_NOTIFICATION object:nil];
 }
 
 #pragma mark - 登录回调
-- (void)loginSuccessedCallBack:(NSInteger)resultCode userID:(NSString *)userID ticket:(NSString *)ticket
+- (void)lgoinSuccessedCallBack:(NSNotification *)notification
 {
+    NSString *userID = [notification.userInfo objectForKey:@"user_id"];
+    NSString *ticket = [notification.userInfo objectForKey:@"ticket"];
     NSString *result = [NSString stringWithFormat:@"登录成功 userID=%@, ticket=%@", userID, ticket];
     [SVProgressHUD showSuccessWithStatus:result];
     NSLog(@"%@",result);
 }
 
-- (void)loginFailedCallBack:(NSInteger)resultCode
+- (void)loginFailedCallBack:(NSNotification *)notification
 {
-    NSString *result = [NSString stringWithFormat:@"登录失败 resultCode=%ld", (long)resultCode];
+    NSString *resultCode = [notification.userInfo objectForKey:@"code"];
+    NSString *result = [NSString stringWithFormat:@"登录失败 resultCode=%@", resultCode];
+    [SVProgressHUD showErrorWithStatus:result];
     NSLog(@"%@",result);
 }
 
@@ -72,24 +80,28 @@
     params.cp_bill_no = @"123456";
     params.notify_url = @"http://pay.zjszz.173.com/pay!finishOrder.action?aaa=bbb&ccc=ddd";
     params.extra = @"abc2013-05-24";
- 
     [[EBPurchaseHelper sharedHelper] setOrdersParams:params];
-    [[EBPurchaseHelper sharedHelper] setPurchaseDelegate:self];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseSuccessedCallBack:) name:PURCHASE_SUCCESSED_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(purchaseFailedCallBack:) name:PURCHASE_FAILED_NOTIFICATION object:nil];
 }
 
 #pragma mark - 支付回调
-- (void)purchaseSuccessedCallBack:(NSString *)productId
+- (void)purchaseSuccessedCallBack:(NSNotification *)notification
 {
+    NSString *productId = [notification.userInfo objectForKey:@"productId"];
     NSString *result = [NSString stringWithFormat:@"Your purchase was successful and the Game Levels Pack %@ is now unlocked for your enjoyment!", productId];
     [SVProgressHUD showSuccessWithStatus:result];
     NSLog(@"%@",result);
 
 }
 
-- (void)purchaseFailedCallBack:(NSInteger)resultCode message:(NSString *)errorMessage
+- (void)purchaseFailedCallBack:(NSNotification *)notification
 {
-    NSString *result = [NSString stringWithFormat:@"Either you cancelled the request or Apple reported a transaction error.Please try again later, or contact the app's customer support for assistance.resultCode=%ld, errorMessage=%@", (long)resultCode, errorMessage];
-    [SVProgressHUD showSuccessWithStatus:result];
+    NSString *resultCode = [notification.userInfo objectForKey:@"resultCode"];
+    NSString *errorMessage = [notification.userInfo objectForKey:@"errorMessage"];
+    NSString *result = [NSString stringWithFormat:@"Either you cancelled the request or Apple reported a transaction error.Please try again later, or contact the app's customer support for assistance.resultCode=%@, errorMessage=%@", resultCode, errorMessage];
+    [SVProgressHUD showErrorWithStatus:result];
     NSLog(@"%@",result);
 }
 

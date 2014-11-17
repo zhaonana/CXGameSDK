@@ -14,6 +14,8 @@
 #import "SVProgressHUD.h"
 #import "NSObject+JSONCategories.h"
 #import "NSString+JSONCategories.h"
+#import "DeviceInfo.h"
+#import "CXCommon.h"
 
 @implementation GGNetWork
 

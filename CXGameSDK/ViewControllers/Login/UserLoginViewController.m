@@ -8,6 +8,7 @@
 
 #import "UserLoginViewController.h"
 #import "PreferencesUtils.h"
+#import "TalkingDataAppCpa.h"
 
 @interface UserLoginViewController () {
     UITextField    *_accountField;
@@ -263,10 +264,8 @@
                 user.username = username;
                 user.password = password;
                 user.origin = origin;
-                
-                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginSuccessedCallBack:userID:ticket:)]) {
-                    [self.rootView.loginDelegate loginSuccessedCallBack:code userID:user.user_id ticket:user.ticket];
-                }
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOGIN_SUCCESSED_NOTIFICATION object:nil userInfo:dic];
 
                 //保存账户密码
                 [self saveUsers:user];
@@ -282,9 +281,9 @@
                 //TD
                 [TalkingDataAppCpa onLogin:user.user_id];
             } else {
-                if (self.rootView.loginDelegate && [self.rootView.loginDelegate respondsToSelector:@selector(loginFailedCallBack:)]) {
-                    [self.rootView.loginDelegate loginFailedCallBack:code];
-                }
+                NSDictionary *dic = @{@"code": [NSString stringWithFormat:@"%ld",(long)code]};
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOGIN_FAILED_NOTIFICATION object:nil userInfo:dic];
+
                 [self showToast:code];
             }
         }

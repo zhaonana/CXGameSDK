@@ -7,6 +7,7 @@
 //
 
 #import "RegistViewController.h"
+#import "TalkingDataAppCpa.h"
 
 @interface RegistViewController () {
     UITextField *_accountField;

@@ -65,7 +65,7 @@
     UIView *_paddingView;
 }
 
-@property (nonatomic, strong)CXSDKViewController *rootView;
+@property (nonatomic, strong) CXSDKViewController *rootView;
 
 - (void)showToast:(NSInteger)code;
 

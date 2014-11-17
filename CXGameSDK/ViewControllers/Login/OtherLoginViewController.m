@@ -7,6 +7,9 @@
 //
 
 #import "OtherLoginViewController.h"
+#import "CXCommon.h"
+#import "DeviceInfo.h"
+#import "TalkingDataAppCpa.h"
 
 @interface OtherLoginViewController () <UIWebViewDelegate>
 
