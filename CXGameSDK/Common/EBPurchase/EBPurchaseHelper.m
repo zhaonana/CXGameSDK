@@ -177,7 +177,8 @@ static EBPurchaseHelper * _sharedHelper;
 - (void)failedPurchase:(EBPurchase*)ebp error:(NSInteger)errorCode message:(NSString*)errorMessage
 {
     NSLog(@"ViewController failedPurchase");
-    
+    [SVProgressHUD dismiss];
+
     // Purchase or Restore request failed, so notify the user.
 
     NSDictionary *dic = @{@"errorCode": [NSString stringWithFormat:@"%ld",(long)errorCode],
@@ -189,7 +190,7 @@ static EBPurchaseHelper * _sharedHelper;
 - (void)cancelledPurchase:(EBPurchase *)ebp error:(NSInteger)errorCode message:(NSString *)errorMessage
 {
     NSLog(@"ViewController cancelledPurchase");
-    
+    [SVProgressHUD dismiss];
     // Purchase or Restore request was cancelled, so notify the user.
     
     NSDictionary *dic = @{@"errorMessage": errorMessage};

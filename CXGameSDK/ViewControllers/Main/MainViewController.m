@@ -76,7 +76,7 @@
 - (void)startPay
 {
     CXPayParams *params = [[CXPayParams alloc] init];
-    params.good_id = @"36";
+    params.good_id = @"25";
     params.cp_bill_no = @"123456";
     params.notify_url = @"http://pay.zjszz.173.com/pay!finishOrder.action?aaa=bbb&ccc=ddd";
     params.extra = @"abc2013-05-24";
@@ -94,7 +94,6 @@
     NSString *result = [NSString stringWithFormat:@"Your purchase was successful and the Game Levels Pack %@ is now unlocked for your enjoyment!", productId];
     [SVProgressHUD showSuccessWithStatus:result];
     NSLog(@"%@",result);
-
 }
 
 - (void)purchaseFailedCallBack:(NSNotification *)notification
