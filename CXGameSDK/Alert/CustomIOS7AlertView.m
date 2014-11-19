@@ -70,6 +70,13 @@ CGFloat buttonSpacerHeight = 0;
         [self applyMotionEffects];
     }
 #endif
+    // no transforms applied to window in iOS 8, but only if compiled with iOS 8 sdk as base sdk, otherwise system supports old rotation logic.
+    BOOL ignoreOrientation = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+    if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
+        ignoreOrientation = YES;
+    }
+#endif
 
     dialogView.layer.opacity = 0.5f;
     dialogView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
@@ -85,25 +92,28 @@ CGFloat buttonSpacerHeight = 0;
 
     // Attached to the top most window (make sure we are using the right orientation):
     } else {
-        UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-        switch (interfaceOrientation) {
-            case UIInterfaceOrientationLandscapeLeft:
-                self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
-                break;
-                
-            case UIInterfaceOrientationLandscapeRight:
-                self.transform = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
-                break;
-
-            case UIInterfaceOrientationPortraitUpsideDown:
-                self.transform = CGAffineTransformMakeRotation(M_PI * 180.0 / 180.0);
-                break;
-
-            default:
-                break;
-        }
-
-        [self setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        if (!ignoreOrientation) {
+            UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+            switch (interfaceOrientation) {
+                case UIInterfaceOrientationLandscapeLeft:
+                    self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
+                    break;
+                    
+                case UIInterfaceOrientationLandscapeRight:
+                    self.transform = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
+                    break;
+                    
+                case UIInterfaceOrientationPortraitUpsideDown:
+                    self.transform = CGAffineTransformMakeRotation(M_PI * 180.0 / 180.0);
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            [self setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        } 
+        
         [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
     }
 
@@ -257,12 +267,18 @@ CGFloat buttonSpacerHeight = 0;
         buttonHeight = 0;
         buttonSpacerHeight = 0;
     }
-
+    // no transforms applied to window in iOS 8, but only if compiled with iOS 8 sdk as base sdk, otherwise system supports old rotation logic.
+    BOOL ignoreOrientation = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+    if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
+        ignoreOrientation = YES;
+    }
+#endif
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
 
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+    if (!ignoreOrientation && UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
         CGFloat tmp = screenWidth;
         screenWidth = screenHeight;
         screenHeight = tmp;
@@ -356,9 +372,15 @@ CGFloat buttonSpacerHeight = 0;
     CGSize screenSize = [self countScreenSize];
     CGSize dialogSize = [self countDialogSize];
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-
+    // no transforms applied to window in iOS 8, but only if compiled with iOS 8 sdk as base sdk, otherwise system supports old rotation logic.
+    BOOL ignoreOrientation = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+    if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
+        ignoreOrientation = YES;
+    }
+#endif
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+    if (!ignoreOrientation && UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
         CGFloat tmp = keyboardSize.height;
         keyboardSize.height = keyboardSize.width;
         keyboardSize.width = tmp;
