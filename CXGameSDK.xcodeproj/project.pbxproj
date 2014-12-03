@@ -1167,7 +1167,7 @@
 					"$(PROJECT_DIR)/CXGameSDK/a.appcpa.net",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "25681c2b-b5bc-4cb7-bac3-8599e59557ba";
+				PROVISIONING_PROFILE = "be41bce1-b4bd-466c-8baf-60ec534bec7d";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1191,7 +1191,7 @@
 					"$(PROJECT_DIR)/CXGameSDK/a.appcpa.net",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "25681c2b-b5bc-4cb7-bac3-8599e59557ba";
+				PROVISIONING_PROFILE = "be41bce1-b4bd-466c-8baf-60ec534bec7d";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};

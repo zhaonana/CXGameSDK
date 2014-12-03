@@ -321,6 +321,13 @@ CGFloat buttonSpacerHeight = 0;
 // Handle device orientation changes
 - (void)deviceOrientationDidChange:(NSNotification *)notification
 {
+    // no transforms applied to window in iOS 8, but only if compiled with iOS 8 sdk as base sdk, otherwise system supports old rotation logic.
+    BOOL ignoreOrientation = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+    if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
+        ignoreOrientation = YES;
+    }
+#endif
     // If dialog is attached to the parent view, it probably wants to handle the orientation change itself
     if (parentView != NULL) {
         return;
@@ -331,22 +338,26 @@ CGFloat buttonSpacerHeight = 0;
     CGFloat startRotation = [[self valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     CGAffineTransform rotation;
 
-    switch (interfaceOrientation) {
-        case UIInterfaceOrientationLandscapeLeft:
-            rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 270.0 / 180.0);
-            break;
-
-        case UIInterfaceOrientationLandscapeRight:
-            rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 90.0 / 180.0);
-            break;
-
-        case UIInterfaceOrientationPortraitUpsideDown:
-            rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 180.0 / 180.0);
-            break;
-
-        default:
-            rotation = CGAffineTransformMakeRotation(-startRotation + 0.0);
-            break;
+    if (ignoreOrientation) {
+        rotation = CGAffineTransformMakeRotation(-startRotation + 0.0);
+    } else {
+        switch (interfaceOrientation) {
+            case UIInterfaceOrientationLandscapeLeft:
+                rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 270.0 / 180.0);
+                break;
+                
+            case UIInterfaceOrientationLandscapeRight:
+                rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 90.0 / 180.0);
+                break;
+                
+            case UIInterfaceOrientationPortraitUpsideDown:
+                rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 180.0 / 180.0);
+                break;
+                
+            default:
+                rotation = CGAffineTransformMakeRotation(-startRotation + 0.0);
+                break;
+        }
     }
 
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone

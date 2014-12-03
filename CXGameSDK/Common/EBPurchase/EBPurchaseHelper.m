@@ -159,7 +159,9 @@ static EBPurchaseHelper * _sharedHelper;
                 if (code == 1) {
                     NSLog(@"验证收据成功~");
                     // 2 - Notify the user that the transaction was successful.
-                    NSDictionary *dic = @{@"productId": productId};
+                    NSDictionary *dic = @{@"productId": productId,
+                                          @"orderId": _order_id
+                                          };
                     [[NSNotificationCenter defaultCenter] postNotificationName:PURCHASE_SUCCESSED_NOTIFICATION object:nil userInfo:dic];
                     
                     [TalkingDataAppCpa onPay:[Common getUser].user_id withOrderId:_order_id withAmount:_amount withCurrencyType:@"CNY" withPayType:@"In App Purchases"];
