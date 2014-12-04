@@ -11,6 +11,10 @@
 #import "DeviceInfo.h"
 #import "TalkingDataAppCpa.h"
 
+//#define kBaseURL @"http://sdkapi.ak.cc"
+//#define kBaseURL @"http://sdkapi.test.ak.cc"
+#define kBaseURL @"http://14.17.126.90:8091"
+
 @interface OtherLoginViewController () <UIWebViewDelegate>
 
 @end
@@ -35,22 +39,35 @@
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(barButtonClick)];
     self.navigationItem.leftBarButtonItem = leftItem;
     
+    // no transforms applied to window in iOS 8, but only if compiled with iOS 8 sdk as base sdk, otherwise system supports old rotation logic.
+    BOOL ignoreOrientation = NO;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+    if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
+        ignoreOrientation = YES;
+    }
+#endif
+    
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     CGRect frame = CGRectMake(0, 0, 0, 0);
-    switch (interfaceOrientation) {
-        case UIInterfaceOrientationLandscapeLeft:
-            frame = CGRectMake(0, 0, KSCREENHEIGHT, KSCREENWIDTH);
-            break;
-        case UIInterfaceOrientationLandscapeRight:
-            frame = CGRectMake(0, 0, KSCREENHEIGHT, KSCREENWIDTH);
-            break;
-        case UIInterfaceOrientationPortraitUpsideDown:
-            frame = CGRectMake(0, 0, KSCREENWIDTH, KSCREENHEIGHT);
-            break;
-        default:
-            frame = CGRectMake(0, 0, KSCREENWIDTH, KSCREENHEIGHT);
-            break;
+    if (ignoreOrientation) {
+        frame = CGRectMake(0, 0, KSCREENWIDTH, KSCREENHEIGHT);
+    } else {
+        switch (interfaceOrientation) {
+            case UIInterfaceOrientationLandscapeLeft:
+                frame = CGRectMake(0, 0, KSCREENHEIGHT, KSCREENWIDTH);
+                break;
+            case UIInterfaceOrientationLandscapeRight:
+                frame = CGRectMake(0, 0, KSCREENHEIGHT, KSCREENWIDTH);
+                break;
+            case UIInterfaceOrientationPortraitUpsideDown:
+                frame = CGRectMake(0, 0, KSCREENWIDTH, KSCREENHEIGHT);
+                break;
+            default:
+                frame = CGRectMake(0, 0, KSCREENWIDTH, KSCREENHEIGHT);
+                break;
+        }
     }
+    
     UIWebView *webView = [[UIWebView alloc] initWithFrame:frame];
     [webView setDelegate:self];
     
@@ -58,7 +75,7 @@
     NSString *deviceName = [DeviceInfo getDeviceVersion];
     NSMutableDictionary *infoDic = [USER_DEFAULT objectForKey:INITINFO];
     
-    NSString *urlStr = [NSString stringWithFormat:@"http://sdkapi.test.ak.cc/user/threelogin?client=%@&app_id=%@&server_id=%@&device_name=%@&os_version=%@&imei=%@",self.client,[infoDic objectForKey:@"appID"],[infoDic objectForKey:@"serviceID"],deviceName,phoneVer,[DeviceInfo getIDFA]];
+    NSString *urlStr = [NSString stringWithFormat:@"%@/user/threelogin?client=%@&app_id=%@&server_id=%@&device_name=%@&os_version=%@&imei=%@",kBaseURL,self.client,[infoDic objectForKey:@"appID"],[infoDic objectForKey:@"serviceID"],deviceName,phoneVer,[DeviceInfo getIDFA]];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
     
     [self.view addSubview:webView];

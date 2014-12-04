@@ -44,7 +44,7 @@
 - (void)startSDK
 {
     CXInitConfigure *cfg = [[CXInitConfigure alloc] init];
-    cfg.appId = @"10010";
+    cfg.appId = @"10003";
     cfg.cpKey = @"123456";
     cfg.serverId = @"2";
     cfg.controller = self;
@@ -76,7 +76,7 @@
 - (void)startPay
 {
     CXPayParams *params = [[CXPayParams alloc] init];
-    params.good_id = @"25";
+    params.good_id = @"12";
     params.cp_bill_no = @"123456";
     params.notify_url = @"http://pay.zjszz.173.com/pay!finishOrder.action?aaa=bbb&ccc=ddd";
     params.extra = @"abc2013-05-24";
