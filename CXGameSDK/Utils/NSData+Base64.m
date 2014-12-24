@@ -1,4 +1,5 @@
 // http://www.cocoadev.com/index.pl?BaseSixtyFour
+#import <Foundation/Foundation.h>
 
 static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
