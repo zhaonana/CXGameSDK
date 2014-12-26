@@ -319,7 +319,7 @@
     NSArray *recipients = [[NSArray alloc] init];
     MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
     
-    if([MFMessageComposeViewController canSendText]) {
+    if ([MFMessageComposeViewController canSendText]) {
         controller.body = bodyOfMessage;
         controller.recipients = recipients;
         controller.messageComposeDelegate = self;
